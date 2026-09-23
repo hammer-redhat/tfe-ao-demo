@@ -1,7 +1,8 @@
-provider "kubernetes" {
+provider "kubectl" {
   host                   = var.host
   token                  = var.token
   cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
+  load_config_file       = false
 }
 
 locals {
@@ -9,15 +10,8 @@ locals {
   cloud_init_user_data = "#cloud-config\nhostname: ${var.vm_name}\n${local.ssh_key_block}"
 }
 
-resource "kubernetes_manifest" "rhel9_vm" {
-  computed_fields = [
-    "metadata.annotations",
-    "metadata.labels",
-    "spec.template.metadata",
-    "spec.template.spec",
-  ]
-
-  manifest = {
+resource "kubectl_manifest" "rhel9_vm" {
+  yaml_body = yamlencode({
     apiVersion = "kubevirt.io/v1"
     kind       = "VirtualMachine"
     metadata = {
@@ -41,15 +35,11 @@ resource "kubernetes_manifest" "rhel9_vm" {
               disks = [
                 {
                   name = "containerdisk"
-                  disk = {
-                    bus = "virtio"
-                  }
+                  disk = { bus = "virtio" }
                 },
                 {
                   name = "cloudinit"
-                  disk = {
-                    bus = "virtio"
-                  }
+                  disk = { bus = "virtio" }
                 },
               ]
               interfaces = [
@@ -60,9 +50,7 @@ resource "kubernetes_manifest" "rhel9_vm" {
               ]
             }
             resources = {
-              requests = {
-                memory = var.vm_memory
-              }
+              requests = { memory = var.vm_memory }
             }
           }
           networks = [
@@ -89,5 +77,5 @@ resource "kubernetes_manifest" "rhel9_vm" {
         }
       }
     }
-  }
+  })
 }
