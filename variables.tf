@@ -1,21 +1,3 @@
-variable "host" {
-  description = "Kubernetes API server URL (e.g. https://api.virt.na-launch.com:6443)"
-  type        = string
-  sensitive   = true
-}
-
-variable "token" {
-  description = "Kubernetes service account bearer token"
-  type        = string
-  sensitive   = true
-}
-
-variable "cluster_ca_certificate" {
-  description = "Base64-encoded cluster CA certificate; decoded by the provider block"
-  type        = string
-  sensitive   = true
-}
-
 variable "namespace" {
   description = "Namespace to create the VirtualMachine in"
   type        = string

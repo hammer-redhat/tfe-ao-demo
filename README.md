@@ -6,13 +6,18 @@ Provisions a RHEL9 VM on OpenShift Virtualization using Terraform Cloud.
 
 - Terraform 1.13.5 installed locally
 - Access to the `ocp-virt-tfe-demo` TFC organization
-- The following workspace variables set in `test-rhel9-vm-workspace` (all sensitive unless noted):
+- The following **environment** variables set in `test-rhel9-vm-workspace` (cluster auth):
+
+| Env Variable | Sensitive | Description |
+|--------------|-----------|-------------|
+| `KUBE_HOST` | no | Kubernetes API URL, e.g. `https://api.virt.na-launch.com:6443` |
+| `KUBE_TOKEN` | yes | Service account bearer token |
+| `KUBE_CLUSTER_CA_CERT_DATA` | yes | Base64-encoded cluster CA certificate |
+
+- The following **Terraform** variables set in `test-rhel9-vm-workspace`:
 
 | Variable | Sensitive | Description |
 |----------|-----------|-------------|
-| `host` | yes | Kubernetes API URL, e.g. `https://api.virt.na-launch.com:6443` |
-| `token` | yes | Service account bearer token |
-| `cluster_ca_certificate` | yes | Base64-encoded cluster CA certificate |
 | `rh_registry_pull_secret` | yes | Name of the existing `registry.redhat.io` pull Secret in the target namespace |
 | `ssh_public_key` | no | SSH public key to inject (leave empty to skip) |
 | `namespace` | no | Target namespace (default: `default`) |
