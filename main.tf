@@ -10,6 +10,16 @@ locals {
 }
 
 resource "kubernetes_manifest" "rhel9_vm" {
+  computed_fields = [
+    "metadata.annotations",
+    "metadata.labels",
+    "spec.template.metadata.annotations",
+    "spec.template.metadata.labels",
+    "spec.template.spec.domain.machine",
+    "spec.template.spec.domain.firmware",
+    "spec.template.spec.domain.devices.interfaces",
+  ]
+
   manifest = {
     apiVersion = "kubevirt.io/v1"
     kind       = "VirtualMachine"
