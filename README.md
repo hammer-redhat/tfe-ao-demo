@@ -17,6 +17,8 @@ Provisions a RHEL9 VM on OpenShift Virtualization using Terraform Cloud.
 | `ssh_public_key` | no | SSH public key to inject (leave empty to skip) |
 | `namespace` | no | Target namespace (default: `default`) |
 | `vm_name` | no | VM object name (default: `rhel9-vm`) |
+| `vm_cpu_cores` | no | Number of vCPU cores (default: `2`) |
+| `vm_memory` | no | Memory request, e.g. `4Gi` (default: `4Gi`) |
 
 - An image pull Secret for `registry.redhat.io` already exists in the target namespace.
 
